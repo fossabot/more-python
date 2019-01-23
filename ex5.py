@@ -3,14 +3,14 @@
 from ex4 import ParseArgs
 
 args = ParseArgs()
-args.parse_args()
+size = args.parse_args()
 
 if __name__ == "__main__":
     n = 0
-    for index, v in args.flags.items():
-        if n != index:
-            print('args is error')
+    while True:
+        if n in args.flags:
+            with open(args.flags[n]) as f:
+                print(''.join(f.readlines()))
+        elif n >= size:
+            break
         n = n + 1
-
-        with open(v) as f:
-            print(''.join(f.readlines()))

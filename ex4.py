@@ -4,10 +4,12 @@ import sys
 
 # 基于sys.args的参数解析
 
+
 class ParseArgs:
     flags = {}
     select = {}
     l = 0
+
     def parse_args(self):
         args = sys.argv
         l = len(sys.argv) - 1
@@ -30,6 +32,7 @@ class ParseArgs:
             self.flags[index] = '--' + select_title if len(
                 select_title) > 1 else '-' + select_title
         return l
+
 
 if __name__ == "__main__":
     args = ParseArgs()

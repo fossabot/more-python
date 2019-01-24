@@ -71,4 +71,4 @@ class Find:
 
 
 if __name__ == "__main__":
-    Find()
+    f = Find()

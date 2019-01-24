@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'pip install --user codecov'
-                sh 'codecov --token=$CODECOV_TOKEN'
+                sh 'bash <(curl -s https://codecov.io/bash)
             }
         }
     }

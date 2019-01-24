@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'pip install --upgrade pip'
-                sh 'pip install codecov'
+                sh 'pip install --user codecov'
                 sh 'codecov --token=$CODECOV_TOKEN'
             }
         }

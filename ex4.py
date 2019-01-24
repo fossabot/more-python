@@ -27,7 +27,7 @@ class ParseArgs:
                 continue
             self.flags[index] = item
         if select_title != '':
-            self.flags[index] = select_title
+            self.flags[index] = '--' + select_title if len(select_title) > 1 else '-' + select_title
         return l
 
 if __name__ == "__main__":

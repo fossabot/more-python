@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
+                sh 'coverage run tests.py'
                 sh 'codecov --token=$CODECOV_TOKEN'
             }
         }

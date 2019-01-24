@@ -8,8 +8,9 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'ci_env=`bash <(curl -s https://codecov.io/env)`'
-                sh 'bash <(curl -s https://codecov.io/bash)"'
+                sh 'echo $SHELL'
+                // sh 'ci_env=`bash <(curl -s https://codecov.io/env)`'
+                // sh 'bash <(curl -s https://codecov.io/bash)'
             }
         }
     }

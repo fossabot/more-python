@@ -20,7 +20,7 @@ class Find:
         for function, value in self.args.select.items():
             if function in self.switch:
                 self.func.append(self.switch[function](value))
-    
+
         self._init_files()
 
     def _init_files(self):
@@ -32,6 +32,7 @@ class Find:
         self.file_paths = []
         work_space = os.path.abspath(work_space)
         self._push_file(work_space, self.file_paths)
+
     def _push_file(self, work_space, file_paths):
         file_list = os.listdir(work_space)
         for file in file_list:
@@ -47,7 +48,7 @@ class Find:
         for fun in self.func:
             if not fun(file):
                 return False
-            
+
         return True
 
     def _name(self, filter):

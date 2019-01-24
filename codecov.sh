@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-ci_env=`bash <(curl -s https://codecov.io/env)`
-bash <(curl -s https://codecov.io/bash)
+bash -c "bash <(curl -s https://codecov.io/bash) -t ${$CODECOV_TOKEN}"

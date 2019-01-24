@@ -4,6 +4,7 @@ import os
 import fnmatch
 import subprocess
 
+
 class Find:
     def __init__(self):
         # 初始化参数
@@ -23,9 +24,11 @@ class Find:
                     sh = ' ' + self.args.flags[l] + sh
                     l = l - 1
                 sh = self.args.select['exec'] + sh
+
                 def _(f):
                     re_sh = sh.replace('{}', f).strip().split(' ')[:-1]
-                    subprocess.Popen(re_sh)
+                    subprocess.call(re_sh)
+
                 self.exec = _
         # 功能扩展
         self.switch = {
@@ -37,9 +40,9 @@ class Find:
         for function, value in self.args.select.items():
             if function in self.switch:
                 self.func.append(self.switch[function](value))
-                
+
         self._init_files()
-        
+
         for item in self.file_path:
             self.exec(item)
 

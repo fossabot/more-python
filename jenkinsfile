@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'kennethreitz/pipenv'}
+        dockerfile true
     }
     environment {
         CODECOV_TOKEN = credentials('CODECOV_TOKEN')
@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh './codecov.sh'
+                sh 'codecov --token=$CODECOV_TOKEN'
             }
         }
     }

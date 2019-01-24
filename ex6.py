@@ -73,18 +73,18 @@ class Find:
 
         return True
 
-    def __name(self, filter):
-        return lambda f: fnmatch.fnmatch(os.path.split(f)[-1], filter)
+    def __name(self, fil):
+        return lambda f: fnmatch.fnmatch(os.path.split(f)[-1], fil)
 
-    def __info(self, filter):
+    def __info(self, fil):
         type_switch = {
             'd': os.path.isdir,
             'f': os.path.isfile,
             'l': os.path.islink,
         }
-        if not filter in type_switch:
+        if not fil in type_switch:
             raise Exception('unrecognized type')
-        return lambda f: True if type_switch[filter](f) is True else False
+        return lambda f: True if type_switch[fil](f) is True else False
 
 
 if __name__ == "__main__":

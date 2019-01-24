@@ -2,7 +2,6 @@
 from ex4 import ParseArgs
 import os
 import re
-import copy
 
 
 class Find:

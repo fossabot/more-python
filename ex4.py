@@ -20,14 +20,14 @@ class ParseArgs:
         index = -1
         for item in args[1:]:
             index = index + 1
-            if len(item) > 1 and item[0] == '-' and select_title == '':
-                select_title = item[2:] if item[1] == '-' else item[1:]
-                continue
-            if select_title != '':
+            if select_title == '':
+                if len(item) > 1 and item[0] == '-':
+                    select_title = item[2:] if item[1] == '-' else item[1:]
+                else:
+                    self.flags[index] = item
+            else:
                 self.select[select_title] = item
                 select_title = ''
-                continue
-            self.flags[index] = item
         if select_title != '':
             self.flags[index] = '--' + select_title if len(
                 select_title) > 1 else '-' + select_title

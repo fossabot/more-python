@@ -2,18 +2,31 @@
 from ex4 import ParseArgs
 import os
 import fnmatch
-
+import subprocess
 
 class Find:
     def __init__(self):
         # 初始化参数
         self.args = ParseArgs()
-        args_len = self.args.parse_args()
-        if (args_len - 1 in self.args.flags
-            ) and self.args.flags[args_len - 1] == '--print':
-            self.print = lambda value: print(value)
-        else:
-            self.print = lambda value: value
+        args_len = self.args.parse_args() - 1
+        self.print = lambda value: value
+        self.exec = lambda value: value
+
+        if args_len in self.args.flags:
+            end_arg = self.args.flags[args_len]
+            if end_arg == '--print':
+                self.print = lambda value: print(value)
+            elif end_arg == ';' and 'exec' in self.args.select:
+                l = args_len
+                sh = ''
+                while l in self.args.flags:
+                    sh = ' ' + self.args.flags[l] + sh
+                    l = l - 1
+                sh = self.args.select['exec'] + sh
+                def _(f):
+                    re_sh = sh.replace('{}', f).strip().split(' ')[:-1]
+                    subprocess.Popen(re_sh)
+                self.exec = _
         # 功能扩展
         self.switch = {
             'name': self._name,
@@ -24,8 +37,11 @@ class Find:
         for function, value in self.args.select.items():
             if function in self.switch:
                 self.func.append(self.switch[function](value))
-
+                
         self._init_files()
+        
+        for item in self.file_path:
+            self.exec(item)
 
     def _init_files(self):
         # 获取目录
@@ -33,20 +49,19 @@ class Find:
             work_space = self.args.flags[0]
         else:
             raise Exception('first args not path')
-        self.file_paths = []
         work_space = os.path.abspath(work_space)
-        self._push_file(work_space, self.file_paths)
+        self.file_path = []
+        self._push_file(work_space, self.file_path)
 
-    def _push_file(self, work_space, file_paths):
+    def _push_file(self, work_space, file_path):
         file_list = os.listdir(work_space)
         for file in file_list:
             file = os.path.join(work_space, file)
             if self._exp(file):
                 self.print(file)
-                file_paths.append(file)
-
+                file_path.append(file)
             if os.path.isdir(file):
-                self._push_file(file, file_paths)
+                self._push_file(file, file_path)
                 continue
 
     def _exp(self, file):

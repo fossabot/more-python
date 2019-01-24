@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'codecov --token=$CODECOV_TOKEN'
+                sh 'bash <(curl -s https://codecov.io/env) --token=$CODECOV_TOKEN'
             }
         }
     }

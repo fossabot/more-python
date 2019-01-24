@@ -10,13 +10,12 @@ class Find:
         # 初始化参数
         self.args = ParseArgs()
         args_len = self.args.parse_args() - 1
-        self.print = lambda value: value
+        self.fmt_print = lambda value: value
         self.exec = lambda value: value
-
         if args_len in self.args.flags:
             end_arg = self.args.flags[args_len]
             if end_arg == '--print':
-                self.print = lambda value: print(value)
+                self.fmt_print = lambda value: print(value)
             elif end_arg == ';' and 'exec' in self.args.select:
                 l = args_len
                 sh = ''
@@ -32,8 +31,8 @@ class Find:
                 self.exec = _
         # 功能扩展
         self.switch = {
-            'name': self._name,
-            'type': self._info,
+            'name': self.__name,
+            'type': self.__info,
         }
         self.func = []
         # 过滤
@@ -41,12 +40,12 @@ class Find:
             if function in self.switch:
                 self.func.append(self.switch[function](value))
 
-        self._init_files()
+        self.__init_files()
 
         for item in self.file_path:
             self.exec(item)
 
-    def _init_files(self):
+    def __init_files(self):
         # 获取目录
         if 0 in self.args.flags and os.path.isdir(self.args.flags[0]):
             work_space = self.args.flags[0]
@@ -54,30 +53,30 @@ class Find:
             raise Exception('first args not path')
         work_space = os.path.abspath(work_space)
         self.file_path = []
-        self._push_file(work_space, self.file_path)
+        self.__push_file(work_space, self.file_path)
 
-    def _push_file(self, work_space, file_path):
+    def __push_file(self, work_space, file_path):
         file_list = os.listdir(work_space)
         for file in file_list:
             file = os.path.join(work_space, file)
-            if self._exp(file):
-                self.print(file)
+            if self.__exp(file):
+                self.fmt_print(file)
                 file_path.append(file)
             if os.path.isdir(file):
-                self._push_file(file, file_path)
+                self.__push_file(file, file_path)
                 continue
 
-    def _exp(self, file):
+    def __exp(self, file):
         for fun in self.func:
             if not fun(file):
                 return False
 
         return True
 
-    def _name(self, filter):
+    def __name(self, filter):
         return lambda f: fnmatch.fnmatch(os.path.split(f)[-1], filter)
 
-    def _info(self, filter):
+    def __info(self, filter):
         type_switch = {
             'd': os.path.isdir,
             'f': os.path.isfile,

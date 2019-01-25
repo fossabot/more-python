@@ -4,13 +4,16 @@ import os
 import fnmatch
 import subprocess
 
+
 class Find:
     def __init__(self):
         # 初始化参数
         self.args = ParseArgs()
         args_len = self.args.args_len
+
         def pass_fuc(value):
             pass
+
         self.fmt_print = pass_fuc
         self.exec = pass_fuc
         if args_len in self.args.flags:
@@ -24,12 +27,7 @@ class Find:
                     sh = ' ' + self.args.flags[l] + sh
                     l = l - 1
                 sh = self.args.select['exec'] + sh
-
-                def _(f):
-                    re_sh = sh.replace('{}', f).strip().split(' ')[:-1]
-                    subprocess.call(re_sh)
-
-                self.exec = _
+                self.exec = lambda value:subprocess.call(sh.replace('{}', value).strip().split(' ')[:-1])
         # 功能扩展
         self.switch = {
             'name': self.__name,

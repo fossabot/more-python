@@ -4,14 +4,15 @@ import os
 import fnmatch
 import subprocess
 
-
 class Find:
     def __init__(self):
         # 初始化参数
         self.args = ParseArgs()
         args_len = self.args.parse_args() - 1
-        self.fmt_print = lambda value: value
-        self.exec = lambda value: value
+        def pass_fuc(value):
+            pass
+        self.fmt_print = pass_fuc
+        self.exec = pass_fuc
         if args_len in self.args.flags:
             end_arg = self.args.flags[args_len]
             if end_arg == '--print':

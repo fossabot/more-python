@@ -8,13 +8,14 @@ import sys
 class ParseArgs:
     flags = {}
     select = {}
-    l = 0
+    args_len = 0
 
-    def parse_args(self):
-        args_len = len(sys.argv)
-        if args_len <= 1:
+    def __init__(self):
+        self.args_len = len(sys.argv)
+        if self.args_len <= 1:
             return
-        can_help = True if sys.argv[1].replace('-', '') in ['h', 'help']  else False
+        fist = sys.argv[1].replace('-', '') 
+        can_help = True if fist in ['h', 'help']  else False
         if can_help :
             print('-h, --help 获得帮助文档')
             return
@@ -33,10 +34,8 @@ class ParseArgs:
         if select_title != '':
             self.flags[index] = '--' + select_title if len(
                 select_title) > 1 else '-' + select_title
-        return args_len
 
 
 if __name__ == "__main__":
     args = ParseArgs()
-    args.parse_args()
     print(args.flags, args.select)

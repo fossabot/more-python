@@ -8,7 +8,7 @@ class Find:
     def __init__(self):
         # 初始化参数
         self.args = ParseArgs()
-        args_len = self.args.parse_args() - 1
+        args_len = self.args.args_len
         def pass_fuc(value):
             pass
         self.fmt_print = pass_fuc

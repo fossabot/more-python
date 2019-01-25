@@ -3,7 +3,7 @@
 from ex4 import ParseArgs
 
 args = ParseArgs()
-size = args.parse_args()
+size = args.args_len
 
 if __name__ == "__main__":
     n = 0

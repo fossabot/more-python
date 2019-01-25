@@ -37,16 +37,17 @@ class Cut:
             line = self.__continue(self.args.c, line)
         # f命令处理
         if self.args.f != None:
-            item = line.split(self.args.d)
+            items = line.split(self.args.d)
             if '-' in self.args.f:
-                line = self.args.d.join(self.__continue(self.args.f, item))
+                line = ' '.join(self.__continue(self.args.f, items))
             elif ',' in self.args.f:
-                result = list(
-                    map(lambda i: item[int(i)] if len(item) > int(i) else None,
-                        self.args.f.split(',')))
-                line = ' '.join([item for item in result if item != None])
-            elif int(self.args.f) < len(item):
-                line = item[int(self.args.f)]
+                has_none_items = map(
+                    lambda i: items[int(i)] if len(items) > int(i) else None,
+                    self.args.f.split(','))
+                line = ' '.join(
+                    [item for item in has_none_items if item != None])
+            elif int(self.args.f) < len(items):
+                line = items[int(self.args.f)]
         return line
 
     def __continue(self, sh, line):
@@ -59,18 +60,19 @@ class Cut:
 
     # 校验
     def __verify(self):
-        result = True
         if self.args.c != None:
-            result = result and (True if re.search(r'\d*-\d*', self.args.c)
-                                 else False)
-
+            sh = re.search(r'\d*-\d*', self.args.c)
+            if sh != None:
+                self.args.c = sh.group(0)
+            else:
+                return False
         if self.args.f != None:
-            result = result and (True if re.search(r'(\d*-\d*)|(\d+(,\d+)*)*',
-                                                   self.args.f) else False)
-            if result:
-                self.args.f = re.search(r'(\d*-\d*)|(\d+(,\d+)*)*',
-                                        self.args.f).group(0)
-        return result
+            sh = re.search(r'(\d*-\d*)|(\d+(,\d+)*)*', self.args.f)
+            if sh != None:
+                self.args.f = sh.group(0)
+            else:
+                return False
+        return True
 
 
 if __name__ == "__main__":

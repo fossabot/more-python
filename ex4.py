@@ -13,7 +13,9 @@ class ParseArgs:
     def parse_args(self):
         args = sys.argv
         args_len = len(sys.argv)
-        can_help = True if args_len ==2 and args[1].replace('-', '') in ['h', 'help']  else False
+        if args_len <= 1:
+            return
+        can_help = True if args[1].replace('-', '') in ['h', 'help']  else False
         if can_help :
             print('-h, --help 获得帮助文档')
             return

@@ -11,17 +11,16 @@ class ParseArgs:
     l = 0
 
     def parse_args(self):
-        args = sys.argv
         args_len = len(sys.argv)
         if args_len <= 1:
             return
-        can_help = True if args[1].replace('-', '') in ['h', 'help']  else False
+        can_help = True if sys.argv[1].replace('-', '') in ['h', 'help']  else False
         if can_help :
             print('-h, --help 获得帮助文档')
             return
         select_title = ''
         index = -1
-        for item in args[1:]:
+        for item in sys.argv[1:]:
             index = index + 1
             if len(item) > 1 and item[0] == '-' and select_title == '':
                 select_title = item[2:] if item[1] == '-' else item[1:]
